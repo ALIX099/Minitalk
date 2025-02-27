@@ -1,21 +1,21 @@
 echo "Test with 8 characters"
 printf '    '
-{ time ./client $1 "Hello 42"; } 2>&1 | tr '\n' ' '
+{ time ./client_bonus $1 "Hello 42"; } 2>&1 | tr '\n' ' '
 echo
 
 echo "Test with 100 characters"
 printf '    '
-{ time ./client $1 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus est id varius tristique. Cu"; } 2>&1 | tr '\n' ' '
+{ time ./client_bonus $1 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus est id varius tristique. Cu"; } 2>&1 | tr '\n' ' '
 echo
 
 echo "Test with utf-8 characters"
 printf '    '
-{ time ./client $1 "©¶Øî🌋💗"; } 2>&1 | tr '\n' ' '
+{ time ./client_bonus $1 "©¶Øî🌋💗"; } 2>&1 | tr '\n' ' '
 echo
 
 echo "Test with 2545 characters"
 printf '    '
-{ time ./client $1 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus est id varius tristique. Curabitur consequat dapibus ligula eu bibendum. Aenean id tellus a justo consequat tincidunt. Aliquam erat volutpat. Cras eget libero egestas, malesuada risus sit amet, fringilla felis. In fermentum, dolor non auctor rhoncus, ligula magna viverra eros, ut ultrices est lectus at ipsum. Sed tempor suscipit libero, venenatis ornare massa scelerisque eu.
+{ time ./client_bonus $1 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus est id varius tristique. Curabitur consequat dapibus ligula eu bibendum. Aenean id tellus a justo consequat tincidunt. Aliquam erat volutpat. Cras eget libero egestas, malesuada risus sit amet, fringilla felis. In fermentum, dolor non auctor rhoncus, ligula magna viverra eros, ut ultrices est lectus at ipsum. Sed tempor suscipit libero, venenatis ornare massa scelerisque eu.
 Cras cursus felis at risus elementum, ut posuere eros luctus. Maecenas lobortis auctor eleifend. Integer ultricies porta aliquet. Etiam faucibus lectus sed mauris feugiat ornare. Duis eget sagittis lectus. In vitae mollis quam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nullam fermentum efficitur odio, in blandit diam faucibus nec. Proin non nisi at lacus fermentum pharetra ac ac sem. Aliquam libero ex, vestibulum quis felis in, fermentum scelerisque nunc.
 Etiam pellentesque posuere facilisis. Nullam volutpat velit vitae turpis feugiat imperdiet. Nullam non posuere enim. Nulla at imperdiet nibh, eget viverra quam. Mauris eget pretium mauris, at feugiat dolor. Duis ultricies, odio sed aliquam gravida, enim elit sollicitudin nibh, quis malesuada purus urna faucibus sem. Nulla aliquet magna tortor, vel scelerisque magna sollicitudin quis. Aliquam ut felis lobortis, tincidunt magna ac, feugiat enim. Proin vehicula a lacus eget mollis. Phasellus laoreet tempor dui, quis mollis quam congue vel.
 Nulla egestas non odio ut imperdiet. Nullam faucibus magna lectus, semper vulputate metus ornare sed. Cras in egestas magna, vel commodo tortor. Suspendisse eu gravida urna. Duis iaculis nunc in ultricies ultricies. Aenean in massa elit. Suspendisse efficitur turpis in consectetur elementum. Integer porta vehicula elit ut feugiat. Praesent in congue magna. Praesent interdum dignissim purus id rhoncus. Aliquam et dolor aliquet, commodo justo id, semper ex.
@@ -25,7 +25,7 @@ echo
 
 echo "Test with 63525 characters"
 printf '    '
-{ time ./client $1 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus est id varius tristique. Curabitur consequat dapibus ligula eu bibendum. Aenean id tellus a justo consequat tincidunt. Aliquam erat volutpat. Cras eget libero egestas, malesuada risus sit amet, fringilla felis. In fermentum, dolor non auctor rhoncus, ligula magna viverra eros, ut ultrices est lectus at ipsum. Sed tempor suscipit libero, venenatis ornare massa scelerisque eu.
+{ time ./client_bonus $1 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus est id varius tristique. Curabitur consequat dapibus ligula eu bibendum. Aenean id tellus a justo consequat tincidunt. Aliquam erat volutpat. Cras eget libero egestas, malesuada risus sit amet, fringilla felis. In fermentum, dolor non auctor rhoncus, ligula magna viverra eros, ut ultrices est lectus at ipsum. Sed tempor suscipit libero, venenatis ornare massa scelerisque eu.
 Cras cursus felis at risus elementum, ut posuere eros luctus. Maecenas lobortis auctor eleifend. Integer ultricies porta aliquet. Etiam faucibus lectus sed mauris feugiat ornare. Duis eget sagittis lectus. In vitae mollis quam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nullam fermentum efficitur odio, in blandit diam faucibus nec. Proin non nisi at lacus fermentum pharetra ac ac sem. Aliquam libero ex, vestibulum quis felis in, fermentum scelerisque nunc.
 Etiam pellentesque posuere facilisis. Nullam volutpat velit vitae turpis feugiat imperdiet. Nullam non posuere enim. Nulla at imperdiet nibh, eget viverra quam. Mauris eget pretium mauris, at feugiat dolor. Duis ultricies, odio sed aliquam gravida, enim elit sollicitudin nibh, quis malesuada purus urna faucibus sem. Nulla aliquet magna tortor, vel scelerisque magna sollicitudin quis. Aliquam ut felis lobortis, tincidunt magna ac, feugiat enim. Proin vehicula a lacus eget mollis. Phasellus laoreet tempor dui, quis mollis quam congue vel.
 Nulla egestas non odio ut imperdiet. Nullam faucibus magna lectus, semper vulputate metus ornare sed. Cras in egestas magna, vel commodo tortor. Suspendisse eu gravida urna. Duis iaculis nunc in ultricies ultricies. Aenean in massa elit. Suspendisse efficitur turpis in consectetur elementum. Integer porta vehicula elit ut feugiat. Praesent in congue magna. Praesent interdum dignissim purus id rhoncus. Aliquam et dolor aliquet, commodo justo id, semper ex.

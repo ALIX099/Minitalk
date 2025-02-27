@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouknan <abouknan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/27 01:51:58 by abouknan          #+#    #+#             */
-/*   Updated: 2025/02/27 02:55:12 by abouknan         ###   ########.fr       */
+/*   Created: 2025/02/27 03:00:58 by abouknan          #+#    #+#             */
+/*   Updated: 2025/02/27 03:01:01 by abouknan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ static void	action(int signal, siginfo_t *info, void *context)
 	if (i < 0)
 	{
 		if (c == '\0')
+		{
 			write(1, "\n", 1);
+			if (info->si_pid > 0)
+				kill(info->si_pid, SIGUSR2);
+		}
 		else
 			write(1, &c, 1);
 		i = 7;

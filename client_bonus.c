@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouknan <abouknan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/27 01:51:55 by abouknan          #+#    #+#             */
-/*   Updated: 2025/02/27 02:54:14 by abouknan         ###   ########.fr       */
+/*   Created: 2025/02/27 03:01:10 by abouknan          #+#    #+#             */
+/*   Updated: 2025/02/27 03:01:11 by abouknan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int ac, char **av)
 	}
 	ft_printf("Sending message to PID: %d\n", pid);
 	signal(SIGUSR1, ft_ack_handler);
+	signal(SIGUSR2, ft_ack_handler);
 	i = 0;
 	while (av[2][i])
 	{
@@ -53,8 +54,13 @@ int	main(int ac, char **av)
 
 void	ft_ack_handler(int signal)
 {
-    (void)signal;
-	g_ack_received = 1;
+	if (signal == SIGUSR1)
+		g_ack_received = 1;
+	else if (signal == SIGUSR2)
+	{
+		ft_printf("Message received by server.\n");
+		exit(0);
+	}
 }
 
 void	ft_send_bits(pid_t pid, char c)

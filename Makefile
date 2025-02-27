@@ -1,43 +1,38 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+LIBS = -Llibft -lft -Lft_printf -lftprintf
+
+SRC = server.c client.c server_bonus.c client_bonus.c
+OBJ = $(SRC:.c=.o)
 
 NAME_SERVER = server
 NAME_CLIENT = client
-
-LIBFT_DIR = libft
-PRINTF_DIR = ft_printf
-LIBS = -L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf
-
-SERVER_SRC = server.c
-CLIENT_SRC = client.c
-
-SERVER_OBJ = $(SERVER_SRC:.c=.o)
-CLIENT_OBJ = $(CLIENT_SRC:.c=.o)
+NAME_SERVER_BONUS = server_bonus
+NAME_CLIENT_BONUS = client_bonus
 
 all: libft printf $(NAME_SERVER) $(NAME_CLIENT)
 
+bonus: libft printf $(NAME_SERVER_BONUS) $(NAME_CLIENT_BONUS)
+
 libft:
-	make -C $(LIBFT_DIR)
+	make -C libft
 
 printf:
-	make -C $(PRINTF_DIR)
+	make -C ft_printf
 
-$(NAME_SERVER) $(NAME_CLIENT): %: %.o
-	$(CC) $(CFLAGS) $< $(LIBS) -o $@
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME_SERVER) $(NAME_CLIENT) $(NAME_SERVER_BONUS) $(NAME_CLIENT_BONUS): %: %.o
+	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
 
 clean:
-	rm -f $(SERVER_OBJ) $(CLIENT_OBJ)
-	make clean -C $(LIBFT_DIR)
-	make clean -C $(PRINTF_DIR)
+	rm -f $(OBJ)
+	make clean -C libft
+	make clean -C ft_printf
 
 fclean: clean
-	rm -f $(NAME_SERVER) $(NAME_CLIENT)
-	make fclean -C $(LIBFT_DIR)
-	make fclean -C $(PRINTF_DIR)
+	rm -f $(NAME_SERVER) $(NAME_CLIENT) $(NAME_SERVER_BONUS) $(NAME_CLIENT_BONUS)
+	make fclean -C libft
+	make fclean -C ft_printf
 
 re: fclean all
 
-.PHONY: all libft printf clean fclean re
+.PHONY: all bonus libft printf clean fclean re
