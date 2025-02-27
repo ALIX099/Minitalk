@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouknan <abouknan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 22:58:04 by abouknan          #+#    #+#             */
-/*   Updated: 2025/02/26 23:46:04 by abouknan         ###   ########.fr       */
+/*   Created: 2025/02/27 01:51:58 by abouknan          #+#    #+#             */
+/*   Updated: 2025/02/27 01:51:59 by abouknan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,42 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-static void	action(int signal)
+static void	action(int signal, siginfo_t *info, void *context)
 {
-	static int	 i = 7;
-	static char	 c = 0;
+	static int	i = 7;
+	static char	c = 0;
 
+	(void)context;
 	if (signal == SIGUSR1)
 		c |= (1 << i);
-	else if (signal == SIGUSR2)
-		c &= ~(1 << i);
-
 	i--;
-
 	if (i < 0)
 	{
-		write(1, &c, 1);
+		if (c == '\0')
+			write(1, "\n", 1);
+		else
+			write(1, &c, 1);
 		i = 7;
 		c = 0;
+	}
+	if (info->si_pid != 0)
+	{
+		usleep(100);
+		kill(info->si_pid, SIGUSR1);
 	}
 }
 
 int	main(void)
 {
+	struct sigaction	sa;
+
 	ft_putstr_fd("MY PID: ", 1);
 	ft_printf("%d\n", getpid());
-
-	signal(SIGUSR1, action);
-	signal(SIGUSR2, action);
-
+	sa.sa_sigaction = action;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
 		pause();
 }

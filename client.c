@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouknan <abouknan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 22:43:28 by abouknan          #+#    #+#             */
-/*   Updated: 2025/02/27 00:58:25 by abouknan         ###   ########.fr       */
+/*   Created: 2025/02/27 01:51:55 by abouknan          #+#    #+#             */
+/*   Updated: 2025/02/27 02:05:08 by abouknan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,17 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-static void	ft_while_bits(int i, int bit, pid_t pid, char *av);
-static void	ft_check_sig1(pid_t pid);
-static void	ft_check_sig2(pid_t pid);
+int		g_ack_received = 0;
+
+void	ft_ack_handler(int signal);
+void	ft_send_bits(pid_t pid, char c);
+void	ft_send_signal(pid_t pid, int sig);
 
 int	main(int ac, char **av)
 {
-	pid_t	pid;
 	int		i;
-	int		bit;
+	pid_t	pid;
 
-	i = 0;
-	bit = 7;
 	if (ac != 3)
 	{
 		ft_printf("Usage: ./client <pid> <message>\n");
@@ -41,40 +40,46 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	ft_printf("Sending message to PID: %d\n", pid);
-	ft_while_bits(i, bit, pid, av[2]);
-}
-
-static void	ft_while_bits(int i, int bit, pid_t pid, char *av)
-{
-	while (av[i])
+	signal(SIGUSR1, ft_ack_handler);
+	i = 0;
+	while (av[2][i])
 	{
-		bit = 7;
-		while (bit >= 0)
-		{
-			if (av[i] & (1 << bit))
-				ft_check_sig1(pid);
-			else
-				ft_check_sig2(pid);
-			bit--;
-		}
+		ft_send_bits(pid, av[2][i]);
 		i++;
 	}
+	ft_send_bits(pid, '\0');
+	return (0);
 }
 
-static void	ft_check_sig1(pid_t pid)
+void	ft_ack_handler(int signal)
 {
-	if (kill(pid, SIGUSR1) < 0)
+	(void)signal;
+	g_ack_received = 1;
+}
+
+void	ft_send_bits(pid_t pid, char c)
+{
+	int	bit;
+
+	bit = 7;
+	while (bit >= 0)
 	{
-		ft_printf("Error: Sending SIGUSR1 signal failed!\n");
-		exit(1);
+		g_ack_received = 0;
+		if (c & (1 << bit))
+			ft_send_signal(pid, SIGUSR1);
+		else
+			ft_send_signal(pid, SIGUSR2);
+		while (!g_ack_received)
+			pause();
+		bit--;
 	}
 }
 
-static void	ft_check_sig2(pid_t pid)
+void	ft_send_signal(pid_t pid, int sig)
 {
-	if (kill(pid, SIGUSR2) < 0)
+	if (kill(pid, sig) < 0)
 	{
-		ft_printf("Error: Sending SIGUSR2 signal failed!\n");
+		ft_printf("Error: Sending signal failed!\n");
 		exit(1);
 	}
 }
