@@ -53,7 +53,7 @@ int	main(int ac, char **av)
 
 void	ft_ack_handler(int signal)
 {
-    (void)signal;
+	(void)signal;
 	g_ack_received = 1;
 }
 
