@@ -41,7 +41,7 @@ static void	action(int signal, siginfo_t *info, void *no_necessary)
 	kill(info->si_pid, SIGUSR1);
 }
 
-int	main(void)
+int	main()
 {
 	struct sigaction	sa;
 

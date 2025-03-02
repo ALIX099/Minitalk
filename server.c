@@ -35,11 +35,10 @@ static void	action(int signal, siginfo_t *info, void *no_necessary)
 		i = 7;
 		c = 0;
 	}
-	usleep(100);
 	kill(info->si_pid, SIGUSR1);
 }
 
-int	main(void)
+int	main()
 {
 	struct sigaction	sa;
 
