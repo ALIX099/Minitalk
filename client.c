@@ -6,7 +6,7 @@
 /*   By: abouknan <abouknan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:51:55 by abouknan          #+#    #+#             */
-/*   Updated: 2025/02/27 02:54:14 by abouknan         ###   ########.fr       */
+/*   Updated: 2025/03/02 06:30:17 by abouknan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-void	ft_ack_handler(int signal)
+static void	ft_ack_handler(int signal)
 {
 	(void)signal;
 	g_received = 1;
 }
 
-void	ft_send_bits(pid_t pid, char c)
+static void	ft_send_bits(pid_t pid, char c)
 {
 	int	bit;
 
@@ -69,13 +69,13 @@ void	ft_send_bits(pid_t pid, char c)
 			ft_send_signal(pid, SIGUSR1);
 		else
 			ft_send_signal(pid, SIGUSR2);
-		while (!g_received)
+		while (g_received == 0)
 			pause();
 		bit--;
 	}
 }
 
-void	ft_send_signal(pid_t pid, int sig)
+static void	ft_send_signal(pid_t pid, int sig)
 {
 	if (kill(pid, sig) < 0)
 	{
