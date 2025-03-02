@@ -17,7 +17,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-int		g_ack_received = 0;
+static int		g_received = 0;
 
 void	ft_ack_handler(int signal);
 void	ft_send_bits(pid_t pid, char c);
@@ -55,7 +55,7 @@ int	main(int ac, char **av)
 void	ft_ack_handler(int signal)
 {
 	if (signal == SIGUSR1)
-		g_ack_received = 1;
+		g_received = 1;
 	else if (signal == SIGUSR2)
 	{
 		ft_printf("Message received by server.\n");
@@ -70,12 +70,12 @@ void	ft_send_bits(pid_t pid, char c)
 	bit = 7;
 	while (bit >= 0)
 	{
-		g_ack_received = 0;
+		g_received = 0;
 		if (c & (1 << bit))
 			ft_send_signal(pid, SIGUSR1);
 		else
 			ft_send_signal(pid, SIGUSR2);
-		while (!g_ack_received)
+		while (!g_received)
 			pause();
 		bit--;
 	}
