@@ -6,7 +6,7 @@
 /*   By: abouknan <abouknan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 03:01:10 by abouknan          #+#    #+#             */
-/*   Updated: 2025/03/02 06:30:41 by abouknan         ###   ########.fr       */
+/*   Updated: 2025/03/05 06:33:25 by abouknan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 
 static int		g_received = 0;
 
-void	ft_ack_handler(int signal);
-void	ft_send_bits(pid_t pid, char c);
-void	ft_send_signal(pid_t pid, int sig);
+static void	ft_ack_handler(int signal);
+static void	ft_send_bits(pid_t pid, char c);
+static void	ft_send_signal(pid_t pid, int sig);
 
 int	main(int ac, char **av)
 {
@@ -34,7 +34,7 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	pid = ft_atoi(av[1]);
-	if (pid <= 0 || av[2][0] == '\0')
+	if (pid == -1 || av[2][0] == '\0' || pid == 0)
 	{
 		ft_printf("Error: Invalid PID or empty message string.\n");
 		return (1);
@@ -47,6 +47,7 @@ int	main(int ac, char **av)
 	{
 		ft_send_bits(pid, av[2][i]);
 		i++;
+		usleep(200);
 	}
 	ft_send_bits(pid, '\0');
 	return (0);

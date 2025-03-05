@@ -6,7 +6,7 @@
 /*   By: abouknan <abouknan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:51:58 by abouknan          #+#    #+#             */
-/*   Updated: 2025/03/02 06:28:20 by abouknan         ###   ########.fr       */
+/*   Updated: 2025/03/05 06:07:58 by abouknan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(void)
 {
 	struct sigaction	sa;
 
+	ft_memset(&sa, 0, sizeof(sa));
 	ft_putstr_fd("MY PID: ", 1);
 	ft_printf("%d\n", getpid());
 	sa.sa_sigaction = action;
