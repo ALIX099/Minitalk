@@ -6,7 +6,7 @@
 /*   By: abouknan <abouknan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:51:55 by abouknan          #+#    #+#             */
-/*   Updated: 2025/03/05 06:31:09 by abouknan         ###   ########.fr       */
+/*   Updated: 2025/03/05 06:55:56 by abouknan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	pid = ft_atoi(av[1]);
-	if (pid == -1 || av[2][0] == '\0' || pid == 0)
+	if (pid <= 0 || av[2][0] == '\0')
 	{
 		ft_printf("Error: Invalid PID or empty message string.\n");
 		return (1);
