@@ -6,7 +6,7 @@
 /*   By: abouknan <abouknan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 03:01:10 by abouknan          #+#    #+#             */
-/*   Updated: 2025/03/05 06:55:31 by abouknan         ###   ########.fr       */
+/*   Updated: 2025/03/07 03:10:26 by abouknan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-static int		g_received = 0;
+static int	g_received = 0;
 
 static void	ft_ack_handler(int signal);
 static void	ft_send_bits(pid_t pid, char c);
@@ -50,7 +50,6 @@ int	main(int ac, char **av)
 		usleep(200);
 	}
 	ft_send_bits(pid, '\0');
-	return (0);
 }
 
 static void	ft_ack_handler(int signal)
@@ -59,7 +58,7 @@ static void	ft_ack_handler(int signal)
 		g_received = 1;
 	else if (signal == SIGUSR2)
 	{
-		ft_printf("Message received by server.\n");
+		ft_printf("\nMessage received by server.\n");
 		exit(0);
 	}
 }

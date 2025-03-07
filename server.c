@@ -6,7 +6,7 @@
 /*   By: abouknan <abouknan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:51:58 by abouknan          #+#    #+#             */
-/*   Updated: 2025/03/05 06:07:58 by abouknan         ###   ########.fr       */
+/*   Updated: 2025/03/07 03:13:32 by abouknan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,23 @@
 
 static void	action(int signal, siginfo_t *info, void *no_necessary)
 {
-	static int	i = 7;
-	static char	c = 0;
+	static int		i = 7;
+	static char		c = 0;
+	static pid_t	last_pid;
 
 	(void)no_necessary;
+	if (last_pid != info->si_pid)
+	{
+		i = 7;
+		c = 0;
+		last_pid = info->si_pid;
+	}
 	if (signal == SIGUSR1)
 		c |= (1 << i);
 	i--;
 	if (i < 0)
 	{
-		if (c == '\0')
-			write(1, "\n", 1);
-		else
-			write(1, &c, 1);
+		write(1, &c, 1);
 		i = 7;
 		c = 0;
 	}
@@ -51,5 +55,5 @@ int	main(void)
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
-		pause();
+		;
 }
